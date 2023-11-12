@@ -30,7 +30,7 @@ export default function Register() {
     <div>
       <TopBar />
       <div className='flex justify-center items-center h-[calc(100vh-73.6px)]'>
-        <div className='w-[32rem] h-72 rounded-md outline outline-gray-400 p-5'>
+        <div className='w-[32rem] h-80 rounded-md outline outline-gray-400 p-5'>
           <p className='text-3xl font-bold'>회원가입</p> <br />
           <p>ID</p>
           <Input
@@ -45,7 +45,12 @@ export default function Register() {
             className='w-80'
             placeholder={'password'}
             innerRef={pwRef}
-          />{' '}
+          />
+          <input className='mt-7' type='checkbox' />{' '}
+          <a className='text-blue-500' href='/privacypolicy.html'>
+            개인정보처리방침
+          </a>
+          에 동의합니다
           <br />
           <PrimaryButton onClick={handleOnClick}>회원가입</PrimaryButton>
         </div>
