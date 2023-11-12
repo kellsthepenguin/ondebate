@@ -4,7 +4,7 @@ import { readFileSync } from 'fs'
 import prisma from '@/prisma'
 import { sha256 } from 'js-sha256'
 
-const key = readFileSync('../../private.key').toString()
+const key = readFileSync('../../../private.key').toString()
 
 export default async function handler(
   req: NextApiRequest,
