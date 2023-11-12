@@ -8,7 +8,7 @@ export default function Login() {
       <TopBar />
       <div className='flex justify-center items-center h-[calc(100vh-73.6px)]'>
         <div className='w-[32rem] h-72 rounded-md outline outline-gray-400 p-5'>
-          <p className='text-3xl font-bold'>Login</p> <br />
+          <p className='text-3xl font-bold'>로그인</p> <br />
           <p>ID</p>
           <Input
             type={'text'}
