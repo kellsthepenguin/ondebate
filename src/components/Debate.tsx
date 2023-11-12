@@ -16,7 +16,7 @@ export default function Debate({
   date: Date
 }) {
   return (
-    <div className='rounded-md w-96 h-32 min-w-[24rem] bg-gray-200 pt-3 pl-4 flex flex-col'>
+    <div className='rounded-md w-96 h-32 min-w-[24rem] bg-gray-100 pt-3 pl-4 flex flex-col'>
       <span className='inline-block font-bold'>
         {topic}{' '}
         <span className='font-normal pl-1 text-gray-400'>@{ownerId}</span>
