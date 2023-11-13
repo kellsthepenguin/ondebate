@@ -18,7 +18,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { id, pw } = JSON.parse(req.body)
+  const { id, pw } = req.body
   if (!(id && pw)) return res.json({ error: 'wrong body', ok: false })
   const user = await prisma.user.findUnique({
     where: {
