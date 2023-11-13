@@ -1,4 +1,4 @@
-import { rooms } from '@/global'
+import { io, rooms, users } from '@/global'
 import Room from '@/interfaces/Room'
 import isJWTOk from '@/utils/isJWTOk'
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -29,13 +29,14 @@ export default async function handler(
 
     const keys = [...rooms.keys()]
     const lastKey = keys[keys.length - 1]
+    const userId = (jwt.decode(token) as JwtPayload).id
     const room: Room = {
       topic,
       time,
       groups,
       users: [
         {
-          id: (jwt.decode(token) as JwtPayload).id,
+          id: userId,
           group: groups[0] as string,
           isSpectator: false,
         },
@@ -44,9 +45,11 @@ export default async function handler(
 
     if (!lastKey) {
       rooms.set(1, room)
+      users.set(userId, 1)
       res.json({ id: 1, ok: true })
     } else {
       rooms.set(lastKey + 1, room)
+      users.set(userId, lastKey + 1)
       res.json({ id: lastKey + 1, ok: true })
     }
   }
