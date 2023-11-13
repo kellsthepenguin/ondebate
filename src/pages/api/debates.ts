@@ -44,12 +44,10 @@ export default async function handler(
 
     if (!lastKey) {
       rooms.set(1, room)
+      res.json({ id: 1, ok: true })
     } else {
       rooms.set(lastKey + 1, room)
+      res.json({ id: lastKey + 1, ok: true })
     }
-
-    res.json({ ok: true })
-
-    console.log(rooms)
   }
 }
