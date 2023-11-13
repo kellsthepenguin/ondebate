@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { readFileSync } from 'fs'
-import prisma from '@/prisma'
+import { prisma } from '../../global'
 import { sha256 } from 'js-sha256'
 
 function createSalt() {
