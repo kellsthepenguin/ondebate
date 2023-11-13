@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import TopBar from '../components/TopBar'
+import TopBar from '@/components/TopBar'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { DebateBox } from '@/components/DebateBox'
 import Popup from 'reactjs-popup'
