@@ -34,6 +34,7 @@ export default async function handler(
       topic,
       time,
       groups,
+      isOngoing: false,
       users: [
         {
           id: userId,
