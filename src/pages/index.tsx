@@ -4,8 +4,33 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { DebateBox } from '@/components/DebateBox'
 import Popup from 'reactjs-popup'
 import CreateDebate from '@/components/CreateDebate'
+import useSWR from 'swr'
+import { io } from 'socket.io-client'
+import { ReactDOM } from 'react'
+
+const fetcher = (url: string) => {
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ token: localStorage.getItem('token') }),
+  }).then((r) => r.json())
+}
 
 export default function Home() {
+  const { data } = useSWR('/api/isJWTOk', fetcher)
+  let socket
+
+  if (data && data.isJWTOk) {
+    socket = io({
+      auth: {
+        token: JSON.parse(atob(localStorage.getItem('token')?.split('.')[1]!))
+          .id,
+      },
+    })
+  }
+
   return (
     <div>
       <TopBar />
@@ -23,7 +48,11 @@ export default function Home() {
             overlayStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
             modal
           >
-            <CreateDebate />
+            {data && data.isJWTOk ? (
+              <CreateDebate socket={socket!} />
+            ) : (
+              <div className='bg-white w-48 h-32'>먼저 로그인해주세요</div>
+            )}
           </Popup>
         </div>
         <DebateBox type='recruiting' /> <br />

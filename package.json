@@ -23,6 +23,7 @@
     "react-dom": "^18",
     "reactjs-popup": "^2.0.6",
     "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2",
     "swr": "^2.2.4"
   },
   "devDependencies": {

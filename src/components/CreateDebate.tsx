@@ -1,8 +1,11 @@
 import { useRef } from 'react'
 import Input from './Input'
 import PrimaryButton from './PrimaryButton'
+import { Socket } from 'socket.io-client'
+import DebatePage from './DebatePage'
+import ReactDOM from 'react-dom'
 
-export default function CreateDebate() {
+export default function CreateDebate({ socket }: { socket: Socket }) {
   const topicRef = useRef<HTMLInputElement>(null)
   const descriptionRef = useRef<HTMLInputElement>(null)
   const firstGroupRef = useRef<HTMLInputElement>(null)
@@ -35,7 +38,11 @@ export default function CreateDebate() {
     if (error) {
       return alert(error)
     }
-    // go to debate page.
+
+    ReactDOM.render(
+      <DebatePage socket={socket} />,
+      document.getElementById('root')
+    )
   }
 
   return (
