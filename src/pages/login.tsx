@@ -11,9 +11,9 @@ export default function Login() {
     const { token, error } = await (
       await fetch('/api/login', {
         method: 'POST',
-        headers: new Headers({
+        headers: {
           'Content-Type': 'application/json',
-        }),
+        },
         body: JSON.stringify({
           id: idRef.current!.value,
           pw: pwRef.current!.value,
