@@ -6,5 +6,6 @@ export default interface Room {
   groups: string[]
   description: string
   isOngoing: boolean
+  owner: DebateUser
   users: DebateUser[]
 }

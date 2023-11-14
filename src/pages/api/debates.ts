@@ -36,19 +36,19 @@ export default async function handler(
     const keys = [...rooms.keys()]
     const lastKey = keys[keys.length - 1]
     const userId = (jwt.decode(token) as JwtPayload).id
+    const owner = {
+      id: userId,
+      group: groups[0] as string,
+      isSpectator: false,
+    }
     const room: Room = {
       topic,
       time,
       groups,
       description,
       isOngoing: false,
-      users: [
-        {
-          id: userId,
-          group: groups[0] as string,
-          isSpectator: false,
-        },
-      ],
+      owner,
+      users: [owner],
     }
 
     if (!lastKey) {
