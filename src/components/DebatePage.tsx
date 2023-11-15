@@ -1,15 +1,25 @@
 import Room from '@/interfaces/Room'
 import TopBar from './TopBar'
 import { Socket } from 'socket.io-client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function DebatePage({
   socket,
-  room,
+  room: _room,
 }: {
   socket: Socket
   room: Room
 }) {
+  const [room, setRoom] = useState(_room)
+  useEffect(() => {
+    socket.on('join', (user) => {
+      const newRoom = Object.assign({}, room)
+      newRoom.users.push(user)
+
+      setRoom(newRoom)
+    })
+  }, [])
+
   return (
     <div>
       <TopBar />
