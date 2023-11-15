@@ -1,6 +1,7 @@
 import { io, rooms, users } from '@/global'
 import isJWTOk from '@/utils/isJWTOk'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,9 +11,7 @@ export default async function handler(
 
   if (!(await isJWTOk(token))) return res.json({ error: 'expired token' })
 
-  const userId = JSON.parse(
-    Buffer.from(token.split('.')[1], 'base64').toString('utf8')
-  ).id
+  const userId = (jwt.decode(token) as JwtPayload).id
 
   if (rooms.has(roomId) && !users.has(userId)) {
     const room = rooms.get(roomId)!
