@@ -6,7 +6,7 @@ export default interface Room {
   time: number
   groups: string[]
   description: string
-  isOngoing: boolean
+  phase: number
   owner: DebateUser
   users: DebateUser[]
 }

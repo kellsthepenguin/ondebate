@@ -17,7 +17,7 @@ export default async function handler(
   if (rooms.has(roomId) && !users.has(userId)) {
     const room = rooms.get(roomId)!
 
-    if (room.isOngoing) {
+    if (room.phase === 0) {
       const debateUser = { id: userId, isSpectator: true }
       room.users.forEach(async (user) => {
         const sockets = await io.fetchSockets()

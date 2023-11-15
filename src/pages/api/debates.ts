@@ -47,7 +47,7 @@ export default async function handler(
       time,
       groups,
       description,
-      isOngoing: false,
+      phase: 0,
       owner,
       users: [owner],
     }

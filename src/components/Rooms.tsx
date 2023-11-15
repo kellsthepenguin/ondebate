@@ -28,11 +28,11 @@ export function DebateBox({
       {!isLoading ? (
         rooms!.map((room) => {
           if (type === 'recruiting') {
-            if (room.isOngoing === false) {
+            if (room.phase === 0) {
               return <Room room={room} onClick={roomClickHandler} />
             }
           } else {
-            if (room.isOngoing === true) {
+            if (room.phase !== 0) {
               return <Room room={room} onClick={roomClickHandler} />
             }
           }
