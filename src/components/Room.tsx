@@ -23,10 +23,6 @@ export default function Room({
 
       <div className='mt-auto mb-3'>
         <p className='text-gray-400'>
-          <FontAwesomeIcon icon={faClock} />
-          <span className='pl-2'>{room.time}분</span>
-        </p>
-        <p className='text-gray-400'>
           <FontAwesomeIcon icon={faCalendarAlt} />
           <span className='pl-2' suppressHydrationWarning={true}>
             {new Date().toLocaleDateString()}

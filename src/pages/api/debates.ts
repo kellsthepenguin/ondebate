@@ -14,17 +14,15 @@ export default async function handler(
       token,
       topic,
       description,
-      time,
       groups,
     }: {
       token: string
       topic: string
       description: string
-      time: number
       groups: string[]
     } = req.body
 
-    if (!(token && topic && description && time && groups))
+    if (!(token && topic && description && groups))
       return res.json({ error: 'wrong body', ok: false })
     if (groups.length !== 2)
       return res.json({ error: 'wrong groups', ok: false })
@@ -44,7 +42,6 @@ export default async function handler(
     const room: Room = {
       id: 0,
       topic,
-      time,
       groups,
       description,
       phase: 0,
