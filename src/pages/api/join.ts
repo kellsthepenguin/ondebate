@@ -1,4 +1,3 @@
-import { io, rooms, users } from '@/global'
 import isJWTOk from '@/utils/isJWTOk'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import jwt, { JwtPayload } from 'jsonwebtoken'
@@ -13,19 +12,19 @@ export default async function handler(
 
   const userId = (jwt.decode(token) as JwtPayload).id
 
-  if (rooms.has(roomId) && !users.has(userId)) {
-    const room = rooms.get(roomId)!
+  if (global.rooms.has(roomId) && !global.users.has(userId)) {
+    const room = global.rooms.get(roomId)!
 
-    if (room.phase === 0) {
+    if (room.phase !== 0) {
       const debateUser = { id: userId, isSpectator: true }
       room.users.forEach(async (user) => {
-        const sockets = await io.fetchSockets()
-
+        const sockets = await global.io.fetchSockets()
         sockets
-          .find((socket) => socket.handshake.query.id === user.id)!
-          .emit('join', debateUser)
+          .filter((socket) => socket.handshake.query.id === user.id)!
+          .forEach((socket) => socket.emit('join', debateUser))
       })
       room.users.push(debateUser)
+      global.users.set(userId, roomId)
       res.json({ room })
       return
     }
@@ -45,13 +44,14 @@ export default async function handler(
     const debateUser = { id: userId, group: groupToJoin, isSpectator: false }
 
     room.users.forEach(async (user) => {
-      const sockets = await io.fetchSockets()
+      const sockets = await global.io.fetchSockets()
 
       sockets
-        .find((socket) => socket.handshake.query.id === user.id)!
-        .emit('join', debateUser)
+        .filter((socket) => socket.handshake.query.id === user.id)!
+        .forEach((socket) => socket.emit('join', debateUser))
     })
     room.users.push(debateUser)
+    global.users.set(userId, roomId)
     res.json({ room })
   } else return res.json({ error: 'wrong roomId or already joined' })
 }

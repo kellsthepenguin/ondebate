@@ -26,8 +26,7 @@ export default function Home() {
   if (data && data.isJWTOk) {
     socket = io({
       auth: {
-        token: JSON.parse(atob(localStorage.getItem('token')?.split('.')[1]!))
-          .id,
+        token: localStorage.getItem('token'),
       },
     })
   }

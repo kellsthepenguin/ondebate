@@ -1,4 +1,3 @@
-import { io, rooms, users } from '@/global'
 import Room from '@/interfaces/Room'
 import isJWTOk from '@/utils/isJWTOk'
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -8,7 +7,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === 'GET') return res.json([...rooms.values()])
+  if (req.method === 'GET') return res.json([...global.rooms.values()])
   if (req.method === 'POST') {
     const {
       token,
@@ -31,7 +30,7 @@ export default async function handler(
     if (!(await isJWTOk(token)))
       return res.json({ error: 'expired token', ok: false })
 
-    const keys = [...rooms.keys()]
+    const keys = [...global.rooms.keys()]
     const lastKey = keys[keys.length - 1]
     const userId = (jwt.decode(token) as JwtPayload).id
     const owner = {
@@ -51,13 +50,13 @@ export default async function handler(
 
     if (!lastKey) {
       room.id = 1
-      rooms.set(1, room)
-      users.set(userId, 1)
+      global.rooms.set(1, room)
+      global.users.set(userId, 1)
       res.json({ id: 1, room, ok: true })
     } else {
       room.id = lastKey + 1
-      rooms.set(lastKey + 1, room)
-      users.set(userId, lastKey + 1)
+      global.rooms.set(lastKey + 1, room)
+      global.users.set(userId, lastKey + 1)
       res.json({ id: lastKey + 1, room, ok: true })
     }
   }

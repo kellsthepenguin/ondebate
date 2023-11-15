@@ -3,8 +3,8 @@ import TopBar from './TopBar'
 import { Socket } from 'socket.io-client'
 import { useEffect, useState } from 'react'
 import PrimaryButton from './PrimaryButton'
-import Input from './Input'
 import Bubble from './Bubble'
+import ChatInput from './ChatInput'
 
 export default function DebatePage({
   socket,
@@ -25,9 +25,26 @@ export default function DebatePage({
     })
 
     socket.on('chat', (chat) => {
-      setBubbles([...bubbles, <Bubble name={chat.id} text={chat.text} />])
+      setBubbles([
+        ...bubbles,
+        <Bubble name={chat.author.id} text={chat.text} />,
+      ])
     })
   }, [])
+
+  const onSendTriggered = async (text: string) => {
+    const { error, ok } = await (
+      await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: localStorage.getItem('token'), text }),
+      })
+    ).json()
+
+    if (!ok) return alert(error)
+  }
 
   return (
     <div>
@@ -70,7 +87,7 @@ export default function DebatePage({
           <p className='mt-3 mb-2 text-3xl font-bold'>채팅</p>
           <div className='w-[35vw] h-[calc(80vh-73.6px)] outline outline-gray-400 rounded-md p-5 flex flex-col'>
             <div className='flex flex-col-reverse h-full mb-3'>{bubbles}</div>
-            <Input type='text' placeholder='채팅' className='mt-auto' />
+            <ChatInput onSendTriggered={onSendTriggered} />
           </div>
         </div>
       </div>
