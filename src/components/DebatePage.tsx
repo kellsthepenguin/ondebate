@@ -2,6 +2,7 @@ import Room from '@/interfaces/Room'
 import TopBar from './TopBar'
 import { Socket } from 'socket.io-client'
 import { useEffect, useState } from 'react'
+import PrimaryButton from './PrimaryButton'
 
 export default function DebatePage({
   socket,
@@ -57,6 +58,13 @@ export default function DebatePage({
             })}
           </div>
         </div>
+        <div className='ml-auto pr-5'>
+          <p className='mt-3 mb-2 text-3xl font-bold'>채팅</p>
+          <div className='w-[35rem] h-[50rem] outline outline-gray-400 rounded-md p-5'></div>
+        </div>
+      </div>
+      <div className='p-5'>
+        <PrimaryButton>토론 시작하기</PrimaryButton>
       </div>
     </div>
   )
