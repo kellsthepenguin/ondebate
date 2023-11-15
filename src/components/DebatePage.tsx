@@ -3,6 +3,8 @@ import TopBar from './TopBar'
 import { Socket } from 'socket.io-client'
 import { useEffect, useState } from 'react'
 import PrimaryButton from './PrimaryButton'
+import Input from './Input'
+import Bubble from './Bubble'
 
 export default function DebatePage({
   socket,
@@ -60,7 +62,12 @@ export default function DebatePage({
         </div>
         <div className='ml-auto pr-5'>
           <p className='mt-3 mb-2 text-3xl font-bold'>채팅</p>
-          <div className='w-[35rem] h-[50rem] outline outline-gray-400 rounded-md p-5'></div>
+          <div className='w-[35rem] h-[50rem] outline outline-gray-400 rounded-md p-5 flex flex-col'>
+            <div className='flex flex-col-reverse h-full mb-3'>
+              <Bubble name='TEST' text='tester' />
+            </div>
+            <Input type='text' placeholder='채팅' className='mt-auto' />
+          </div>
         </div>
       </div>
       <div className='p-5'>
