@@ -42,6 +42,7 @@ export default async function handler(
       isSpectator: false,
     }
     const room: Room = {
+      id: 0,
       topic,
       time,
       groups,
@@ -52,10 +53,12 @@ export default async function handler(
     }
 
     if (!lastKey) {
+      room.id = 1
       rooms.set(1, room)
       users.set(userId, 1)
       res.json({ id: 1, room, ok: true })
     } else {
+      room.id = lastKey + 1
       rooms.set(lastKey + 1, room)
       users.set(userId, lastKey + 1)
       res.json({ id: lastKey + 1, room, ok: true })
