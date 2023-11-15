@@ -10,7 +10,9 @@ export default async function handler(
 
   if (!(await isJWTOk(token))) return res.json({ error: 'expired token' })
 
-  const userId = JSON.parse(token.split('.')[1]).id
+  const userId = JSON.parse(
+    Buffer.from(token.split('.')[1], 'base64').toString('utf8')
+  ).id
 
   if (rooms.has(roomId) && !users.has(userId)) {
     const room = rooms.get(roomId)!

@@ -1,37 +1,35 @@
 import { faClock } from '@fortawesome/free-regular-svg-icons'
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import IRoom from '@/interfaces/Room'
 
-export default function Debate({
-  topic,
-  description,
-  ownerId,
-  minutes,
-  date,
+export default function Room({
+  room,
+  onClick,
 }: {
-  topic: string
-  description: string
-  ownerId: string
-  minutes: number
-  date: Date
+  room: IRoom
+  onClick: (id: number) => void
 }) {
   return (
-    <div className='rounded-md w-96 h-32 min-w-[24rem] bg-gray-100 pt-3 pl-4 flex flex-col'>
+    <div
+      className='rounded-md w-96 h-32 min-w-[24rem] bg-gray-100 pt-3 pl-4 flex flex-col'
+      onClick={() => onClick(room.id)}
+    >
       <span className='inline-block font-bold'>
-        {topic}{' '}
-        <span className='font-normal pl-1 text-gray-400'>@{ownerId}</span>
+        {room.topic}{' '}
+        <span className='font-normal pl-1 text-gray-400'>@{room.owner.id}</span>
       </span>
-      <p className='text-gray-500'>{description}</p>
+      <p className='text-gray-500'>{room.description}</p>
 
       <div className='mt-auto mb-3'>
         <p className='text-gray-400'>
           <FontAwesomeIcon icon={faClock} />
-          <span className='pl-2'>{minutes}분</span>
+          <span className='pl-2'>{room.time}분</span>
         </p>
         <p className='text-gray-400'>
           <FontAwesomeIcon icon={faCalendarAlt} />
           <span className='pl-2' suppressHydrationWarning={true}>
-            {date.toLocaleDateString()}
+            {new Date().toLocaleDateString()}
           </span>
         </p>
       </div>
