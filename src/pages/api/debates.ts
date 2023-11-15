@@ -54,11 +54,11 @@ export default async function handler(
     if (!lastKey) {
       rooms.set(1, room)
       users.set(userId, 1)
-      res.json({ id: 1, ok: true })
+      res.json({ id: 1, room, ok: true })
     } else {
       rooms.set(lastKey + 1, room)
       users.set(userId, lastKey + 1)
-      res.json({ id: lastKey + 1, ok: true })
+      res.json({ id: lastKey + 1, room, ok: true })
     }
   }
 }

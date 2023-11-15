@@ -19,7 +19,7 @@ export default function CreateDebate({ socket }: { socket: Socket }) {
     const secondGroup = secondGroupRef.current!.value
     const time = timeRef.current!.value
 
-    const { error } = await (
+    const { room, error } = await (
       await fetch('/api/debates', {
         method: 'POST',
         headers: {
@@ -40,7 +40,7 @@ export default function CreateDebate({ socket }: { socket: Socket }) {
     }
 
     ReactDOM.render(
-      <DebatePage socket={socket} />,
+      <DebatePage socket={socket} room={room} />,
       document.getElementById('root')
     )
   }
