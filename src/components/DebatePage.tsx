@@ -14,12 +14,18 @@ export default function DebatePage({
   room: Room
 }) {
   const [room, setRoom] = useState(_room)
+  const [bubbles, setBubbles] = useState<JSX.Element[]>([])
+
   useEffect(() => {
     socket.on('join', (user) => {
       const newRoom = Object.assign({}, room)
       newRoom.users.push(user)
 
       setRoom(newRoom)
+    })
+
+    socket.on('chat', (chat) => {
+      setBubbles([...bubbles, <Bubble name={chat.id} text={chat.text} />])
     })
   }, [])
 
@@ -63,9 +69,7 @@ export default function DebatePage({
         <div className='ml-auto pr-5'>
           <p className='mt-3 mb-2 text-3xl font-bold'>채팅</p>
           <div className='w-[35vw] h-[calc(80vh-73.6px)] outline outline-gray-400 rounded-md p-5 flex flex-col'>
-            <div className='flex flex-col-reverse h-full mb-3'>
-              <Bubble name='TEST' text='tester' />
-            </div>
+            <div className='flex flex-col-reverse h-full mb-3'>{bubbles}</div>
             <Input type='text' placeholder='채팅' className='mt-auto' />
           </div>
         </div>
