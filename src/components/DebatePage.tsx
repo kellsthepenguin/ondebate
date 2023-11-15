@@ -32,7 +32,7 @@ export default function DebatePage({
           <p className='mt-3 mb-2 text-3xl font-bold text-red-500'>
             {room.groups[0]}
           </p>
-          <div className='w-[30rem] h-[50rem] outline outline-gray-400 rounded-md p-5'>
+          <div className='w-[30vw] h-[calc(80vh-73.6px)] outline outline-gray-400 rounded-md p-5'>
             {room.users.map((user) => {
               if (user.group === room.groups[0]) {
                 return (
@@ -48,7 +48,7 @@ export default function DebatePage({
           <p className='mt-3 mb-2 text-3xl font-bold text-blue-500'>
             {room.groups[1]}
           </p>
-          <div className='w-[30rem] h-[50rem] outline outline-gray-400 rounded-md p-5'>
+          <div className='w-[30vw] h-[calc(80vh-73.6px)] outline outline-gray-400 rounded-md p-5'>
             {room.users.map((user) => {
               if (user.group === room.groups[1]) {
                 return (
@@ -62,7 +62,7 @@ export default function DebatePage({
         </div>
         <div className='ml-auto pr-5'>
           <p className='mt-3 mb-2 text-3xl font-bold'>채팅</p>
-          <div className='w-[35rem] h-[50rem] outline outline-gray-400 rounded-md p-5 flex flex-col'>
+          <div className='w-[35vw] h-[calc(80vh-73.6px)] outline outline-gray-400 rounded-md p-5 flex flex-col'>
             <div className='flex flex-col-reverse h-full mb-3'>
               <Bubble name='TEST' text='tester' />
             </div>
@@ -70,7 +70,7 @@ export default function DebatePage({
           </div>
         </div>
       </div>
-      <div className='p-5'>
+      <div className='absolute b-0 pl-5 pt-3'>
         <PrimaryButton>토론 시작하기</PrimaryButton>
       </div>
     </div>
