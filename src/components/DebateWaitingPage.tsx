@@ -34,6 +34,13 @@ export default function DebateWaitingPage({
         <Bubble name={chat.author.id} text={chat.text} />,
       ])
     })
+
+    socket.on('leave', (id) => {
+      const newRoom = Object.assign({}, room)
+      newRoom.users.splice(newRoom.users.findIndex((user) => user.id === id))
+
+      setRoom(newRoom)
+    })
   }, [])
 
   const onSendTriggered = async (text: string) => {

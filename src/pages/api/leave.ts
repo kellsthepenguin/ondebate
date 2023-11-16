@@ -21,5 +21,13 @@ export default async function handler(
   )
   global.users.delete(id)
 
+  room.users.forEach(async (user) => {
+    const sockets = await global.io.fetchSockets()
+
+    sockets
+      .filter((socket) => socket.handshake.query.id === user.id)!
+      .forEach((socket) => socket.emit('leave', id))
+  })
+
   res.json({ ok: true })
 }
