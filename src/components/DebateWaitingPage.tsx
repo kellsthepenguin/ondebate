@@ -7,6 +7,8 @@ import Bubble from './Bubble'
 import ChatInput from './ChatInput'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import Home from '@/pages'
+import ReactDOM from 'react-dom'
 
 export default function DebateWaitingPage({
   socket,
@@ -48,12 +50,27 @@ export default function DebateWaitingPage({
     if (!ok) return alert(error)
   }
 
+  const leave = async () => {
+    const { error, ok } = await (
+      await fetch('/api/leave', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: localStorage.getItem('token') }),
+      })
+    ).json()
+
+    if (!ok) return alert(error)
+    ReactDOM.render(<Home />, document.getElementById('root'))
+  }
+
   return (
     <div>
       <TopBar />
       <div className='flex flex-row h-10 items-center'>
         <span className='p-5 text-3xl font-bold'>{room.topic}</span>
-        <button className='text-3xl'>
+        <button className='text-3xl' onClick={leave}>
           <FontAwesomeIcon icon={faRightFromBracket} />
         </button>
       </div>
