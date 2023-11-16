@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 import PrimaryButton from './PrimaryButton'
 import Bubble from './Bubble'
 import ChatInput from './ChatInput'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 export default function DebatePage({
   socket,
@@ -49,7 +51,12 @@ export default function DebatePage({
   return (
     <div>
       <TopBar />
-      <p className='p-5 text-3xl font-bold'>{room.topic}</p>
+      <div className='flex flex-row h-10 items-center'>
+        <span className='p-5 text-3xl font-bold'>{room.topic}</span>
+        <button className='text-3xl'>
+          <FontAwesomeIcon icon={faRightFromBracket} />
+        </button>
+      </div>
       <div className='flex flex-row gap-5'>
         <div className='pl-5'>
           <p className='mt-3 mb-2 text-3xl font-bold text-red-500'>
