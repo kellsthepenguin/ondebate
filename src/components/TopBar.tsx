@@ -22,7 +22,7 @@ export default function TopBar() {
       <a href='/'>
         <img src='logo-full.svg' width={175} height={50.92} className='p-4' />
       </a>
-      <p className='font-bold'>
+      <div className='font-bold'>
         {(data ? data.isJWTOk : false) ? (
           <div>
             <span>
@@ -48,7 +48,7 @@ export default function TopBar() {
             로그인
           </a>
         )}
-      </p>
+      </div>
     </div>
   )
 }
