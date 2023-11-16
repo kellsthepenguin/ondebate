@@ -6,7 +6,7 @@ import Popup from 'reactjs-popup'
 import CreateDebate from '@/components/CreateDebate'
 import useSWR from 'swr'
 import { Socket, io } from 'socket.io-client'
-import DebatePage from '@/components/DebatePage'
+import DebateWaitingPage from '@/components/DebateWaitingPage'
 import ReactDOM from 'react-dom'
 
 const fetcher = (url: string) => {
@@ -48,7 +48,7 @@ export default function Home() {
     if (error) return alert('an error occurred ' + error)
 
     ReactDOM.render(
-      <DebatePage socket={socket} room={room} />,
+      <DebateWaitingPage socket={socket} room={room} />,
       document.getElementById('root')
     )
   }

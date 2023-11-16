@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import Input from './Input'
 import PrimaryButton from './PrimaryButton'
 import { Socket } from 'socket.io-client'
-import DebatePage from './DebatePage'
+import DebateWaitingPage from './DebateWaitingPage'
 import ReactDOM from 'react-dom'
 
 export default function CreateDebate({ socket }: { socket: Socket }) {
@@ -40,7 +40,7 @@ export default function CreateDebate({ socket }: { socket: Socket }) {
     }
 
     ReactDOM.render(
-      <DebatePage socket={socket} room={room} />,
+      <DebateWaitingPage socket={socket} room={room} />,
       document.getElementById('root')
     )
   }

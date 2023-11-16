@@ -8,7 +8,7 @@ import ChatInput from './ChatInput'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
-export default function DebatePage({
+export default function DebateWaitingPage({
   socket,
   room: _room,
 }: {
