@@ -46,6 +46,11 @@ export default function DebateWaitingPage({
       alert('방이 해산되었습니다.')
       ReactDOM.render(<Home />, document.getElementById('root'))
     })
+
+    socket.on('kick', () => {
+      alert('방장에 의해 추방당했습니다.')
+      ReactDOM.render(<Home />, document.getElementById('root'))
+    })
   }, [])
 
   const onSendTriggered = async (text: string) => {
