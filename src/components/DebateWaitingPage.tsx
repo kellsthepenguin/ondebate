@@ -41,6 +41,11 @@ export default function DebateWaitingPage({
 
       setRoom(newRoom)
     })
+
+    socket.on('disband', () => {
+      alert('방이 해산되었습니다.')
+      ReactDOM.render(<Home />, document.getElementById('root'))
+    })
   }, [])
 
   const onSendTriggered = async (text: string) => {

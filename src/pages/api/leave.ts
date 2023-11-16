@@ -29,5 +29,16 @@ export default async function handler(
       .forEach((socket) => socket.emit('leave', id))
   })
 
+  if (id == room.owner.id) {
+    rooms.delete(roomId)
+    room.users.forEach(async (user) => {
+      const sockets = await global.io.fetchSockets()
+
+      sockets
+        .filter((socket) => socket.handshake.query.id === user.id)!
+        .forEach((socket) => socket.emit('disband'))
+    })
+  }
+
   res.json({ ok: true })
 }
