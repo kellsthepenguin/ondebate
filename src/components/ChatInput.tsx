@@ -16,6 +16,7 @@ export default function ChatInput({
         e.stopImmediatePropagation()
         if (e.repeat) return
         onSendTriggered(chatInput.current!.value)
+        chatInput.current!.value = ''
       }
     })
   })
@@ -30,11 +31,12 @@ export default function ChatInput({
       />
       <div
         className='max-sm:mx-[5%]'
-        onClick={() =>
+        onClick={() => {
           onSendTriggered(
             (document.getElementById('chatInput') as HTMLInputElement).value
           )
-        }
+          chatInput.current!.value = ''
+        }}
       >
         <FontAwesomeIcon
           icon={faPaperPlane}
