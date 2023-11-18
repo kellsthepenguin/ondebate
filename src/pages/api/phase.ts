@@ -16,7 +16,7 @@ export default async function handler(
   if (!global.users.has(id))
     return res.json({ error: 'no room joined', ok: false })
 
-  res.json(changePhase(phase, req, false))
+  res.json(await changePhase(phase, req, false))
 }
 
 async function changePhase(
