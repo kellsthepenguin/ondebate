@@ -31,7 +31,8 @@ async function changePhase(
   const sockets = await global.io.fetchSockets()
   const user = room.users.find((user) => user.id === id)!
 
-  if (phase <= room.phase) return { error: 'you cant go back', ok: false }
+  if (phase !== room.phase + 1)
+    return { error: 'next phase should be +1 of current phase', ok: false }
   if (phase > 7) return { error: 'phase cannot be higher than 7', ok: false }
 
   if (phase === 1) {
