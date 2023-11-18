@@ -32,7 +32,15 @@ export default function DebateWaitingPage({
     socket.on('chat', (chat) => {
       setBubbles((prevBubbles) => [
         ...prevBubbles,
-        <Bubble name={chat.author.id} text={chat.text} />,
+        <Bubble
+          name={chat.author.id}
+          color={
+            chat.author.group === room.groups[0]
+              ? 'text-red-500'
+              : 'text-blue-500'
+          }
+          text={chat.text}
+        />,
       ])
     })
 
