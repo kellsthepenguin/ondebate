@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import Home from '@/pages'
 import ReactDOM from 'react-dom'
+import DebatePage from './DebatePage'
 
 export default function DebateWaitingPage({
   socket,
@@ -51,6 +52,14 @@ export default function DebateWaitingPage({
       alert('방장에 의해 추방당했습니다.')
       ReactDOM.render(<Home />, document.getElementById('root'))
     })
+
+    socket.on('start', () => {
+      room.phase = 1
+      ReactDOM.render(
+        <DebatePage socket={socket} room={room} />,
+        document.getElementById('root')
+      )
+    })
   }, [])
 
   const onSendTriggered = async (text: string) => {
@@ -80,6 +89,27 @@ export default function DebateWaitingPage({
 
     if (!ok) return alert(error)
     ReactDOM.render(<Home />, document.getElementById('root'))
+  }
+
+  const start = async () => {
+    const { error, ok } = await (
+      await fetch('/api/phase', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: localStorage.getItem('token'),
+          phase: 1,
+        }),
+      })
+    ).json()
+
+    if (!ok) return alert(error)
+    ReactDOM.render(
+      <DebatePage socket={socket} room={room} />,
+      document.getElementById('root')
+    )
   }
 
   return (
@@ -134,9 +164,14 @@ export default function DebateWaitingPage({
           </div>
         </div>
       </div>
-      <div className='absolute b-0 pl-5 pt-3'>
-        <PrimaryButton>토론 시작하기</PrimaryButton>
-      </div>
+      {room.owner.id ===
+      JSON.parse(atob(localStorage.getItem('token')?.split('.')[1]!)).id ? (
+        <div className='absolute b-0 pl-5 pt-3'>
+          <PrimaryButton onClick={start}>토론 시작하기</PrimaryButton>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   )
 }
