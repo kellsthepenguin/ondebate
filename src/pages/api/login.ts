@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import jwt from 'jsonwebtoken'
 import { readFileSync } from 'fs'
-import { prisma } from '@/global'
+import prisma from '@/prisma'
 import { sha256 } from 'js-sha256'
 
 const key = readFileSync('./private.key').toString()

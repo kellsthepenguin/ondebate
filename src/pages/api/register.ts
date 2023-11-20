@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { prisma } from '@/global'
+import prisma from '@/prisma'
 import { sha256 } from 'js-sha256'
 
 function createSalt() {
