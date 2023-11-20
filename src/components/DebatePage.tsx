@@ -99,7 +99,7 @@ export default function DebateWaitingPage({
       <div className='ml-auto p-5 h-[calc(100vh-113.6px)]'>
         <div className='outline outline-gray-400 h-full rounded-md p-5 flex flex-col'>
           <div className='flex flex-col-reverse overflow-y-auto h-full'>
-            {bubbles.reverse()}
+            {bubbles.toReversed()}
           </div>
           <ChatInput onSendTriggered={onSendTriggered} />
         </div>

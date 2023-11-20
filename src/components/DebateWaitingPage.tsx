@@ -166,7 +166,7 @@ export default function DebateWaitingPage({
           <p className='mt-3 mb-2 text-3xl font-bold'>채팅</p>
           <div className='w-[35vw] h-[calc(80vh-73.6px)] outline outline-gray-400 rounded-md p-5 flex flex-col'>
             <div className='flex flex-col-reverse overflow-y-scroll h-full'>
-              {bubbles.reverse()}
+              {bubbles.toReversed()}
             </div>
             <ChatInput onSendTriggered={onSendTriggered} />
           </div>
