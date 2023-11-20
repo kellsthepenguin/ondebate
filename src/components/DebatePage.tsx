@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import Home from '@/pages'
 import ReactDOM from 'react-dom'
+import ChatInput from './ChatInput'
 
 export default function DebateWaitingPage({
   socket,
@@ -94,6 +95,14 @@ export default function DebateWaitingPage({
         <button className='text-3xl' onClick={leave}>
           <FontAwesomeIcon icon={faRightFromBracket} />
         </button>
+      </div>
+      <div className='ml-auto p-5 h-[calc(100vh-113.6px)]'>
+        <div className='outline outline-gray-400 h-full rounded-md p-5 flex flex-col'>
+          <div className='flex flex-col-reverse overflow-y-auto h-full'>
+            {bubbles.reverse()}
+          </div>
+          <ChatInput onSendTriggered={onSendTriggered} />
+        </div>
       </div>
     </div>
   )
