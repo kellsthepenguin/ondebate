@@ -18,7 +18,16 @@ export default function DebateWaitingPage({
 }) {
   const [room, setRoom] = useState(_room)
   const [bubbles, setBubbles] = useState<JSX.Element[]>([])
-  const [phase, setPhase] = useState<number[]>([])
+  const [phase, setPhase] = useState<number>(1)
+  const phaseTexts = [
+    `${room.groups[0]} 팀 입론`,
+    `${room.groups[1]} 팀 확인 질문`,
+    `${room.groups[1]} 팀 입론`,
+    `${room.groups[0]} 팀 확인 질문`,
+    `${room.groups[0]} 팀 반박`,
+    `${room.groups[1]} 팀 반박`,
+    '투표',
+  ]
 
   useEffect(() => {
     socket.on('chat', (chat) => {
@@ -95,6 +104,7 @@ export default function DebateWaitingPage({
         <button className='text-3xl' onClick={leave}>
           <FontAwesomeIcon icon={faRightFromBracket} />
         </button>
+        <span className='text-3xl font-bold pl-5'>{phaseTexts[phase - 1]}</span>
       </div>
       <div className='ml-auto p-5 h-[calc(100vh-113.6px)]'>
         <div className='outline outline-gray-400 h-full rounded-md p-5 flex flex-col'>
