@@ -30,9 +30,39 @@ app.prepare().then(() => {
     if (!(await isJWTOk(socket.handshake.auth.token))) {
       return socket.disconnect()
     }
-    socket.handshake.query.id = (
-      jwt.decode(socket.handshake.auth.token) as JwtPayload
-    ).id
+    const id = (jwt.decode(socket.handshake.auth.token) as JwtPayload).id
+    socket.handshake.query.id = id
+
+    socket.on('disconnect', () => {
+      const roomId = global.users.get(id)
+      if (!roomId) return
+      const room = global.rooms.get(roomId)!
+
+      room.users.splice(
+        room.users.findIndex((user) => user.id === id),
+        1
+      )
+      global.users.delete(id)
+
+      room.users.forEach(async (user) => {
+        const sockets = await global.io.fetchSockets()
+
+        sockets
+          .filter((socket) => socket.handshake.query.id === user.id)!
+          .forEach((socket) => socket.emit('leave', id))
+      })
+
+      if (id == room.owner.id) {
+        rooms.delete(roomId)
+        room.users.forEach(async (user) => {
+          const sockets = await global.io.fetchSockets()
+
+          sockets
+            .filter((socket) => socket.handshake.query.id === user.id)!
+            .forEach((socket) => socket.emit('disband'))
+        })
+      }
+    })
   })
 
   console.log(
