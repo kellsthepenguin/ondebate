@@ -4,8 +4,10 @@ import Input from './Input'
 import { useEffect, useRef } from 'react'
 
 export default function ChatInput({
+  isDisabled,
   onSendTriggered,
 }: {
+  isDisabled?: boolean
   onSendTriggered: (text: string) => void
 }) {
   const chatInput = useRef<HTMLInputElement>(null)
@@ -24,6 +26,7 @@ export default function ChatInput({
   return (
     <div className='mt-auto flex gap-2 items-center bg-white'>
       <Input
+        isDisabled={isDisabled}
         placeholder='채팅'
         type='text'
         className='relative inline'

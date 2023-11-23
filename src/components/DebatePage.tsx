@@ -19,6 +19,7 @@ export default function DebateWaitingPage({
   const [room, setRoom] = useState(_room)
   const [bubbles, setBubbles] = useState<JSX.Element[]>([])
   const [phase, setPhase] = useState<number>(1)
+  const [isChatDisabled, setIsChatDisabled] = useState<boolean>(false)
   const phaseTexts = [
     `${room.groups[0]} 팀 입론`,
     `${room.groups[1]} 팀 확인 질문`,
@@ -30,6 +31,13 @@ export default function DebateWaitingPage({
   ]
 
   useEffect(() => {
+    const id = JSON.parse(
+      atob(localStorage.getItem('token')?.split('.')[1]!)
+    ).id
+    const user = room.users.find((user) => user.id === id)!
+
+    if (room.groups[1] === user.group) setIsChatDisabled(true)
+
     socket.on('chat', (chat) => {
       setBubbles((prevBubbles) => [
         ...prevBubbles,
@@ -63,6 +71,24 @@ export default function DebateWaitingPage({
     })
 
     socket.on('phase', (phase) => {
+      if (
+        room.groups[0] === user.group &&
+        phase === 2 &&
+        phase === 3 &&
+        phase === 6
+      ) {
+        setIsChatDisabled(true)
+      } else if (
+        room.groups[1] === user.group &&
+        phase === 1 &&
+        phase === 4 &&
+        phase === 5
+      ) {
+        setIsChatDisabled(true)
+      } else {
+        setIsChatDisabled(false)
+      }
+
       setPhase(phase)
     })
   }, [])
@@ -111,7 +137,10 @@ export default function DebateWaitingPage({
           <div className='flex flex-col-reverse overflow-y-auto h-full'>
             {bubbles.toReversed()}
           </div>
-          <ChatInput onSendTriggered={onSendTriggered} />
+          <ChatInput
+            isDisabled={isChatDisabled}
+            onSendTriggered={onSendTriggered}
+          />
         </div>
       </div>
     </div>

@@ -1,11 +1,13 @@
 import { MutableRefObject } from 'react'
 
 export default function Input({
+  isDisabled,
   type,
   className,
   placeholder,
   innerRef,
 }: {
+  isDisabled?: boolean
   type: string
   className?: string
   placeholder: string
@@ -15,11 +17,14 @@ export default function Input({
     <input
       type={type}
       className={
-        'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ' +
+        (isDisabled
+          ? 'bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed '
+          : 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ') +
           className || ''
       }
       ref={innerRef}
       placeholder={placeholder}
-    ></input>
+      disabled={isDisabled}
+    />
   )
 }
