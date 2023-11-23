@@ -52,6 +52,26 @@ app.prepare().then(() => {
           .forEach((socket) => socket.emit('leave', id))
       })
 
+      if (
+        room.users.filter((user) => user.group === room.groups[0]).length ===
+          0 &&
+        room.users.filter((user) => user.group === room.groups[1]).length ===
+          0 &&
+        room.phase !== 0
+      ) {
+        // 한쪽 팀의 인원이 다 나가면 해산
+        rooms.delete(roomId)
+        room.users.forEach(async (user) => {
+          const sockets = await global.io.fetchSockets()
+          users.delete(user.id)
+
+          sockets
+            .filter((socket) => socket.handshake.query.id === user.id)!
+            .forEach((socket) => socket.emit('disband'))
+        })
+        return
+      }
+
       if (id == room.owner.id) {
         rooms.delete(roomId)
         room.users.forEach(async (user) => {
