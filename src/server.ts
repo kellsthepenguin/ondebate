@@ -56,6 +56,7 @@ app.prepare().then(() => {
         rooms.delete(roomId)
         room.users.forEach(async (user) => {
           const sockets = await global.io.fetchSockets()
+          users.delete(user.id)
 
           sockets
             .filter((socket) => socket.handshake.query.id === user.id)!
