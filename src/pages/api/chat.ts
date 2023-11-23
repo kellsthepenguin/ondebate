@@ -16,13 +16,28 @@ export default async function handler(
   const sockets = await global.io.fetchSockets()
   const roomId = global.users.get(id)
   if (!roomId) return res.json({ error: 'no room joined', ok: false })
+  const room = global.rooms.get(roomId)!
   const socketsInRoom = sockets.filter(
     (socket) => users.get(socket.handshake.query.id as string) === roomId
   )
+  const user = room.users.find((user) => user.id === id)!
+
+  if (
+    (room.groups[0] === user.group && room.phase === 2) ||
+    room.phase === 3 ||
+    room.phase === 6
+  ) {
+    return res.json({ error: 'you cant chat now', ok: false })
+  } else if (
+    (room.groups[1] === user.group && room.phase === 1) ||
+    room.phase === 4 ||
+    room.phase === 5
+  ) {
+    return res.json({ error: 'you cant chat now', ok: false })
+  }
 
   if (text.startsWith('/kick')) {
     const userId = text.split(' ')[1]
-    const room = global.rooms.get(roomId)!
 
     if (userId === id)
       return res.json({ error: 'you cant kick yourself', ok: false })
@@ -44,8 +59,6 @@ export default async function handler(
     res.json({ ok: true })
     return
   }
-
-  const user = global.rooms.get(roomId)!.users.find((user) => user.id === id)
 
   socketsInRoom.forEach((socket) => socket.emit('chat', { author: user, text }))
 
