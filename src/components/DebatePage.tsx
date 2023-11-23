@@ -72,16 +72,14 @@ export default function DebateWaitingPage({
 
     socket.on('phase', (phase) => {
       if (
-        room.groups[0] === user.group &&
-        phase === 2 &&
-        phase === 3 &&
+        (room.groups[0] === user.group && phase === 2) ||
+        phase === 3 ||
         phase === 6
       ) {
         setIsChatDisabled(true)
       } else if (
-        room.groups[1] === user.group &&
-        phase === 1 &&
-        phase === 4 &&
+        (room.groups[1] === user.group && phase === 1) ||
+        phase === 4 ||
         phase === 5
       ) {
         setIsChatDisabled(true)
