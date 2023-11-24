@@ -30,8 +30,9 @@ export default async function handler(
   })
 
   if (
-    room.users.filter((user) => user.group === room.groups[0]).length === 0 &&
-    room.users.filter((user) => user.group === room.groups[1]).length === 0 &&
+    (room.users.filter((user) => user.group === room.groups[0]).length === 0 ||
+      room.users.filter((user) => user.group === room.groups[1]).length ===
+        0) &&
     room.phase !== 0
   ) {
     // 한쪽 팀의 인원이 다 나가면 해산
