@@ -22,6 +22,9 @@ export default async function handler(
   )
   const user = room.users.find((user) => user.id === id)!
 
+  if (user.isSpectator)
+    return res.json({ error: 'spectators cant chat', ok: false })
+
   if (
     (room.groups[0] === user.group && room.phase === 2) ||
     room.phase === 3 ||

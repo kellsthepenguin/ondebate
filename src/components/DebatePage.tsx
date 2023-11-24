@@ -37,6 +37,7 @@ export default function DebateWaitingPage({
     const user = room.users.find((user) => user.id === id)!
 
     if (room.groups[1] === user.group) setIsChatDisabled(true)
+    if (user.isSpectator) setIsChatDisabled(true)
 
     socket.on('chat', (chat) => {
       setBubbles((prevBubbles) => [
@@ -71,6 +72,7 @@ export default function DebateWaitingPage({
     })
 
     socket.on('phase', (phase) => {
+      if (user.isSpectator) return
       if (
         (room.groups[0] === user.group && phase === 2) ||
         phase === 3 ||
