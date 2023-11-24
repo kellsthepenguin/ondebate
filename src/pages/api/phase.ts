@@ -48,12 +48,10 @@ async function changePhase(
     })
   } else {
     if (
-      phase === 4 ||
-      (phase === 5 && user.group === room.groups[1]) ||
-      ((phase === 2 ||
-        phase === 3 ||
-        (phase === 6 && user.group === room.groups[0])) &&
-        isManual)
+      (room.groups[0] === user.group &&
+        (phase === 3 || phase === 4 || phase === 7)) ||
+      (room.groups[1] === user.group &&
+        (phase === 2 || phase === 5 || phase === 6))
     )
       return { error: 'you cant skip other team', ok: false }
 

@@ -8,6 +8,7 @@ import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import Home from '@/pages'
 import ReactDOM from 'react-dom'
 import ChatInput from './ChatInput'
+import PrimaryButton from './PrimaryButton'
 
 export default function DebateWaitingPage({
   socket,
@@ -18,7 +19,6 @@ export default function DebateWaitingPage({
 }) {
   const [room, setRoom] = useState(_room)
   const [bubbles, setBubbles] = useState<JSX.Element[]>([])
-  const [phase, setPhase] = useState<number>(1)
   const [isChatDisabled, setIsChatDisabled] = useState<boolean>(false)
   const phaseTexts = [
     `${room.groups[0]} 팀 입론`,
@@ -74,22 +74,20 @@ export default function DebateWaitingPage({
     socket.on('phase', (phase) => {
       if (user.isSpectator) return
       if (
-        (room.groups[0] === user.group && phase === 2) ||
-        phase === 3 ||
-        phase === 6
-      ) {
-        setIsChatDisabled(true)
-      } else if (
-        (room.groups[1] === user.group && phase === 1) ||
-        phase === 4 ||
-        phase === 5
+        (room.groups[0] === user.group &&
+          (phase === 2 || phase === 3 || phase === 6)) ||
+        (room.groups[1] === user.group &&
+          (phase === 1 || phase === 4 || phase === 5))
       ) {
         setIsChatDisabled(true)
       } else {
         setIsChatDisabled(false)
       }
 
-      setPhase(phase)
+      const newRoom = Object.assign({}, room)
+      newRoom.phase = phase
+
+      setRoom(newRoom)
     })
   }, [])
 
@@ -122,6 +120,23 @@ export default function DebateWaitingPage({
     ReactDOM.render(<Home />, document.getElementById('root'))
   }
 
+  const skip = async () => {
+    const { error, ok } = await (
+      await fetch('/api/phase', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: localStorage.getItem('token'),
+          phase: room.phase + 1,
+        }),
+      })
+    ).json()
+
+    if (!ok) return alert(error)
+  }
+
   return (
     <div>
       <TopBar />
@@ -130,7 +145,9 @@ export default function DebateWaitingPage({
         <button className='text-3xl' onClick={leave}>
           <FontAwesomeIcon icon={faRightFromBracket} />
         </button>
-        <span className='text-3xl font-bold pl-5'>{phaseTexts[phase - 1]}</span>
+        <span className='text-3xl font-bold pl-5'>
+          {phaseTexts[room.phase - 1]}
+        </span>
       </div>
       <div className='ml-auto p-5 h-[calc(100vh-113.6px)]'>
         <div className='outline outline-gray-400 h-full rounded-md p-5 flex flex-col'>
@@ -141,6 +158,13 @@ export default function DebateWaitingPage({
             isDisabled={isChatDisabled}
             onSendTriggered={onSendTriggered}
           />
+          <PrimaryButton
+            className='mt-3 w-24'
+            isDisabled={isChatDisabled}
+            onClick={skip}
+          >
+            단계 스킵
+          </PrimaryButton>
         </div>
       </div>
     </div>
