@@ -114,8 +114,10 @@ export default function DebateWaitingPage({
     ).json()
 
     if (!ok) return alert(error)
+    const newRoom = Object.assign({}, room)
+    newRoom.phase = 1
     ReactDOM.render(
-      <DebatePage socket={socket} room={room} />,
+      <DebatePage socket={socket} room={newRoom} />,
       document.getElementById('root')
     )
   }
