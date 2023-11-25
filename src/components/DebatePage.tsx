@@ -109,6 +109,8 @@ export default function DebateWaitingPage({
   }
 
   const leave = async () => {
+    if (room.phase === 7)
+      return ReactDOM.render(<Home />, document.getElementById('root'))
     const { error, ok } = await (
       await fetch('/api/leave', {
         method: 'POST',
