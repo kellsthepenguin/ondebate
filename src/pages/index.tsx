@@ -81,7 +81,7 @@ export default function Home() {
       <TopBar />
       <div className='pl-7 pt-3'>
         <div className='flex items-center'>
-          <span className='font-semibold text-3xl'>모집중인 토론</span>
+          <span className='font-bold text-3xl'>모집중인 토론</span>
           <Popup
             trigger={
               <span className='pl-4 font-semibold text-blue-500'>
@@ -105,7 +105,7 @@ export default function Home() {
           roomClickHandler={recruitingRoomClickHandler}
         />{' '}
         <br />
-        <span className='font-semibold text-3xl'>진행중인 토론</span>
+        <span className='font-bold text-3xl'>진행중인 토론</span>
         <DebateBox type='ongoing' roomClickHandler={ongoingRoomClickHandler} />
       </div>
     </div>
