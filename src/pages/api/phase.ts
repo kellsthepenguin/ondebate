@@ -62,6 +62,37 @@ async function changePhase(
         .filter((socket) => socket.handshake.query.id === user.id)!
         .forEach((socket) => socket.emit('phase', phase))
     })
+
+    if (phase === 7) {
+      if (room.users.length < 3) {
+        return room.users.forEach((user) => {
+          sockets
+            .filter((socket) => socket.handshake.query.id === user.id)!
+            .forEach((socket) => socket.emit('end', [0, 0]))
+        })
+      }
+
+      setTimeout(() => {
+        const firstGroupVoters = [...global.votes.entries()]
+          .filter(({ 1: v }) => v === `${roomId}.${room.groups[0]}`)
+          .map(([k]) => k)
+
+        const secondGroupVoters = [...global.votes.entries()]
+          .filter(({ 1: v }) => v === `${roomId}.${room.groups[1]}`)
+          .map(([k]) => k)
+
+        room.users.forEach((user) => {
+          sockets
+            .filter((socket) => socket.handshake.query.id === user.id)!
+            .forEach((socket) =>
+              socket.emit('end', [
+                firstGroupVoters.length,
+                secondGroupVoters.length,
+              ])
+            )
+        })
+      })
+    }
   }
 
   setTimeout(() => {

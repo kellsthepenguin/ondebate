@@ -15,6 +15,7 @@ declare global {
   var io: Server
   var rooms: Map<number, Room>
   var users: Map<string, number>
+  var votes: Map<string, string>
 }
 
 app.prepare().then(() => {
