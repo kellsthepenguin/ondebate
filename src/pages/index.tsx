@@ -84,7 +84,7 @@ export default function Home() {
           <span className='font-bold text-3xl'>모집중인 토론</span>
           <Popup
             trigger={
-              <span className='pl-4 font-semibold text-blue-500'>
+              <span className='pl-4 font-semibold text-blue-500 cursor-pointer'>
                 <FontAwesomeIcon icon={faPlus} />
                 &nbsp;
                 <span>새 토론 만들기</span>
