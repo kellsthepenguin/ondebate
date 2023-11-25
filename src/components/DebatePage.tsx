@@ -9,6 +9,7 @@ import Home from '@/pages'
 import ReactDOM from 'react-dom'
 import ChatInput from './ChatInput'
 import PrimaryButton from './PrimaryButton'
+import Vote from './Vote'
 
 export default function DebateWaitingPage({
   socket,
@@ -55,10 +56,12 @@ export default function DebateWaitingPage({
     })
 
     socket.on('leave', (id) => {
-      const newRoom = Object.assign({}, room)
-      newRoom.users.splice(newRoom.users.findIndex((user) => user.id === id))
+      setRoom((prevRoom) => {
+        const newRoom = Object.assign({}, prevRoom)
+        newRoom.users.splice(newRoom.users.findIndex((user) => user.id === id))
 
-      setRoom(newRoom)
+        return newRoom
+      })
     })
 
     socket.on('disband', () => {
@@ -72,6 +75,11 @@ export default function DebateWaitingPage({
     })
 
     socket.on('phase', (phase) => {
+      const newRoom = Object.assign({}, room)
+      newRoom.phase = phase
+
+      setRoom(newRoom)
+
       if (user.isSpectator) return
       if (
         (room.groups[0] === user.group &&
@@ -83,11 +91,6 @@ export default function DebateWaitingPage({
       } else {
         setIsChatDisabled(false)
       }
-
-      const newRoom = Object.assign({}, room)
-      newRoom.phase = phase
-
-      setRoom(newRoom)
     })
   }, [])
 
@@ -149,24 +152,28 @@ export default function DebateWaitingPage({
           {phaseTexts[room.phase - 1]}
         </span>
       </div>
-      <div className='ml-auto p-5 h-[calc(100vh-113.6px)]'>
-        <div className='outline outline-gray-400 h-full rounded-md p-5 flex flex-col'>
-          <div className='flex flex-col-reverse overflow-y-auto h-full'>
-            {bubbles.toReversed()}
+      {room.phase !== 7 ? (
+        <div className='ml-auto p-5 h-[calc(100vh-113.6px)]'>
+          <div className='outline outline-gray-400 h-full rounded-md p-5 flex flex-col'>
+            <div className='flex flex-col-reverse overflow-y-auto h-full'>
+              {bubbles.toReversed()}
+            </div>
+            <ChatInput
+              isDisabled={isChatDisabled}
+              onSendTriggered={onSendTriggered}
+            />
+            <PrimaryButton
+              className='mt-3 w-24'
+              isDisabled={isChatDisabled}
+              onClick={skip}
+            >
+              단계 스킵
+            </PrimaryButton>
           </div>
-          <ChatInput
-            isDisabled={isChatDisabled}
-            onSendTriggered={onSendTriggered}
-          />
-          <PrimaryButton
-            className='mt-3 w-24'
-            isDisabled={isChatDisabled}
-            onClick={skip}
-          >
-            단계 스킵
-          </PrimaryButton>
         </div>
-      </div>
+      ) : (
+        <Vote socket={socket} room={room} />
+      )}
     </div>
   )
 }

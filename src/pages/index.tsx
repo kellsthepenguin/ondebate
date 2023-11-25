@@ -8,6 +8,7 @@ import useSWR from 'swr'
 import { Socket, io } from 'socket.io-client'
 import DebateWaitingPage from '@/components/DebateWaitingPage'
 import ReactDOM from 'react-dom'
+import DebatePage from '@/components/DebatePage'
 
 const fetcher = (url: string) => {
   return fetch(url, {
@@ -31,7 +32,7 @@ export default function Home() {
     })
   }
 
-  const roomClickHandler = async (id: number) => {
+  const recruitingRoomClickHandler = async (id: number) => {
     const { room, error } = await (
       await fetch('/api/join', {
         method: 'POST',
@@ -49,6 +50,28 @@ export default function Home() {
 
     ReactDOM.render(
       <DebateWaitingPage socket={socket} room={room} />,
+      document.getElementById('root')
+    )
+  }
+
+  const ongoingRoomClickHandler = async (id: number) => {
+    const { room, error } = await (
+      await fetch('/api/join', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: localStorage.getItem('token'),
+          roomId: id,
+        }),
+      })
+    ).json()
+
+    if (error) return alert('an error occurred ' + error)
+
+    ReactDOM.render(
+      <DebatePage socket={socket} room={room} />,
       document.getElementById('root')
     )
   }
@@ -77,10 +100,13 @@ export default function Home() {
             )}
           </Popup>
         </div>
-        <DebateBox type='recruiting' roomClickHandler={roomClickHandler} />{' '}
+        <DebateBox
+          type='recruiting'
+          roomClickHandler={recruitingRoomClickHandler}
+        />{' '}
         <br />
         <span className='font-semibold text-3xl'>진행중인 토론</span>
-        <DebateBox type='ongoing' roomClickHandler={roomClickHandler} />
+        <DebateBox type='ongoing' roomClickHandler={ongoingRoomClickHandler} />
       </div>
     </div>
   )
