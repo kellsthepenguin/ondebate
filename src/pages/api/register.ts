@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '@/prisma'
 import { sha256 } from 'js-sha256'
+import { verify } from 'hcaptcha'
 
 function createSalt() {
   let result = ''
@@ -18,8 +19,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { id, pw } = req.body
+  const { id, pw, hCaptchaToken } = req.body
   if (!(id && pw)) return res.json({ error: 'wrong body', ok: false })
+  if (!(await verify(process.env.HCAPTCHA_SECRET!, hCaptchaToken)).success)
+    return res.json({ error: 'wrong hcaptcha token', ok: false })
   const user = await prisma.user.findUnique({
     where: {
       id,

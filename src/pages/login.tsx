@@ -1,11 +1,13 @@
 import Input from '@/components/Input'
 import PrimaryButton from '@/components/PrimaryButton'
 import TopBar from '@/components/TopBar'
-import { useRef } from 'react'
+import HCaptcha from '@hcaptcha/react-hcaptcha'
+import { useRef, useState } from 'react'
 
 export default function Login() {
   const idRef = useRef<HTMLInputElement>(null)
   const pwRef = useRef<HTMLInputElement>(null)
+  const [hCaptchaToken, setHCaptchaToken] = useState('')
 
   const handleOnClick = async () => {
     const { token, error } = await (
@@ -17,6 +19,7 @@ export default function Login() {
         body: JSON.stringify({
           id: idRef.current!.value,
           pw: pwRef.current!.value,
+          hCaptchaToken,
         }),
       })
     ).json()
@@ -34,7 +37,7 @@ export default function Login() {
     <div>
       <TopBar />
       <div className='flex justify-center items-center h-[calc(100vh-73.6px)]'>
-        <div className='w-[32rem] h-72 rounded-md outline outline-gray-400 p-5'>
+        <div className='w-[32rem] h-88 rounded-md outline outline-gray-400 p-5'>
           <p className='text-3xl font-bold'>로그인</p> <br />
           <p>ID</p>
           <Input
@@ -51,8 +54,13 @@ export default function Login() {
             innerRef={pwRef}
           />{' '}
           <br />
+          <HCaptcha
+            sitekey='5b7cce4c-90dc-4340-8280-6bdcb05d4578'
+            onVerify={(token) => setHCaptchaToken(token)}
+          />{' '}
+          <br />
           <PrimaryButton onClick={handleOnClick}>로그인</PrimaryButton>
-          또는{' '}
+          또는 &nbsp;
           <a className='text-blue-500' href='/register'>
             회원가입
           </a>
