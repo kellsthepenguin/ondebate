@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "ts-node --project tsconfig.server.json src/server.ts",
-    "build": "next build && tsc --project tsconfig.server.json && node createJWTKey.js",
+    "build": "next build && tsc --project tsconfig.server.json && node createJWTKey.js && prisma db push",
     "start": "cross-env NODE_ENV=production node dist/server.js",
     "lint": "next lint"
   },
