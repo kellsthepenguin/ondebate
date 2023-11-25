@@ -65,7 +65,7 @@ async function changePhase(
 
     if (phase === 7) {
       if (room.users.length < 3) {
-        return room.users.forEach((user) => {
+        room.users.forEach((user) => {
           sockets
             .filter((socket) => socket.handshake.query.id === user.id)!
             .forEach((socket) => socket.emit('end', [0, 0]))
@@ -82,6 +82,8 @@ async function changePhase(
           .map(([k]) => k)
 
         room.users.forEach((user) => {
+          global.users.delete(user.id)
+
           sockets
             .filter((socket) => socket.handshake.query.id === user.id)!
             .forEach((socket) =>
@@ -91,7 +93,11 @@ async function changePhase(
               ])
             )
         })
+
+        global.rooms.delete(roomId)
       })
+
+      return { ok: true }
     }
   }
 
