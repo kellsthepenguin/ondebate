@@ -17,7 +17,6 @@ export default function CreateDebate({ socket }: { socket: Socket }) {
     const description = descriptionRef.current!.value
     const firstGroup = firstGroupRef.current!.value
     const secondGroup = secondGroupRef.current!.value
-    const time = timeRef.current!.value
 
     const { room, error } = await (
       await fetch('/api/debates', {
@@ -30,7 +29,6 @@ export default function CreateDebate({ socket }: { socket: Socket }) {
           topic,
           description,
           groups: [firstGroup, secondGroup],
-          time: parseInt(time),
         }),
       })
     ).json()
