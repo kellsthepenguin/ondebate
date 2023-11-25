@@ -67,7 +67,7 @@ export default function DebateWaitingPage({
                 ) : (
                   <span className='text-blue-500'>{winnerTeam}</span>
                 )}{' '}
-                &nbsp; <span>우승!</span>
+                &nbsp; <span>승리!</span>
               </span>
             )}
           </p>
