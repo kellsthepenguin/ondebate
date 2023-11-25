@@ -25,6 +25,9 @@ export default function DebateWaitingPage({
     const { error, ok } = await (
       await fetch('/api/vote', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ token: localStorage.getItem('token'), group }),
       })
     ).json()
@@ -66,8 +69,8 @@ export default function DebateWaitingPage({
                   <span className='text-red-500'>{winnerTeam}</span>
                 ) : (
                   <span className='text-blue-500'>{winnerTeam}</span>
-                )}{' '}
-                &nbsp; <span>승리!</span>
+                )}
+                팀 <span>승리!</span>
               </span>
             )}
           </p>
