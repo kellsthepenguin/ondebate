@@ -26,6 +26,7 @@ app.prepare().then(() => {
   global.io = new IOServer(server)
   global.rooms = new Map<number, Room>()
   global.users = new Map<string, number>()
+  global.votes = new Map<string, string>()
 
   io.on('connection', async (socket) => {
     if (!(await isJWTOk(socket.handshake.auth.token))) {
