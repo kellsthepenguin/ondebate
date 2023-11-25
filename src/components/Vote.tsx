@@ -1,5 +1,4 @@
 import Room from '@/interfaces/Room'
-import TopBar from './TopBar'
 import { Socket } from 'socket.io-client'
 import { useEffect, useState } from 'react'
 
@@ -12,6 +11,8 @@ export default function DebateWaitingPage({
 }) {
   const [result, setResult] = useState([0, 0])
   const [isEnded, setIsEnded] = useState(false)
+  const winnerTeamIndex = result.findIndex((n) => n === Math.max(...result))
+  const winnerTeam = room.groups[winnerTeamIndex]
 
   useEffect(() => {
     socket.on('end', (result) => {
@@ -54,7 +55,23 @@ export default function DebateWaitingPage({
           </div>
         </div>
       ) : (
-        <div></div>
+        <div className='mt-16 text-center'>
+          <p className='text-5xl font-bold mb-32'>투표 종료</p>
+          <p className='text-6xl font-bold'>
+            {result[0] === result[1] ? (
+              '무승부!'
+            ) : (
+              <span>
+                {winnerTeamIndex === 0 ? (
+                  <span className='text-red-500'>{winnerTeam}</span>
+                ) : (
+                  <span className='text-blue-500'>{winnerTeam}</span>
+                )}{' '}
+                &nbsp; <span>우승!</span>
+              </span>
+            )}
+          </p>
+        </div>
       )}
     </div>
   )
