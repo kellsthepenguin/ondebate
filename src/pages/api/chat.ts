@@ -26,15 +26,13 @@ export default async function handler(
     return res.json({ error: 'spectators cant chat', ok: false })
 
   if (
-    (room.groups[0] === user.group && room.phase === 2) ||
-    room.phase === 3 ||
-    room.phase === 6
+    room.groups[0] === user.group &&
+    (room.phase === 2 || room.phase === 3 || room.phase === 6)
   ) {
     return res.json({ error: 'you cant chat now', ok: false })
   } else if (
-    (room.groups[1] === user.group && room.phase === 1) ||
-    room.phase === 4 ||
-    room.phase === 5
+    room.groups[1] === user.group &&
+    (room.phase === 1 || room.phase === 4 || room.phase === 5)
   ) {
     return res.json({ error: 'you cant chat now', ok: false })
   }
