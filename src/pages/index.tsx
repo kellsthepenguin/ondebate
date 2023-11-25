@@ -96,7 +96,9 @@ export default function Home() {
             {data && data.isJWTOk ? (
               <CreateDebate socket={socket!} />
             ) : (
-              <div className='bg-white w-48 h-32'>먼저 로그인해주세요</div>
+              <div className='bg-white w-48 h-32 flex items-center justify-center'>
+                먼저 로그인해주세요
+              </div>
             )}
           </Popup>
         </div>
