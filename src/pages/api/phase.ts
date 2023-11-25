@@ -67,7 +67,6 @@ async function changePhase(
 
     if (phase === 7) {
       if (room.users.length < 3) {
-        console.log(room.users)
         room.users.forEach((user) => {
           sockets
             .filter((socket) => socket.handshake.query.id === user.id)!

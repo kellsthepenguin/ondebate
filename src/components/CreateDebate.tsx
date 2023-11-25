@@ -10,7 +10,6 @@ export default function CreateDebate({ socket }: { socket: Socket }) {
   const descriptionRef = useRef<HTMLInputElement>(null)
   const firstGroupRef = useRef<HTMLInputElement>(null)
   const secondGroupRef = useRef<HTMLInputElement>(null)
-  const timeRef = useRef<HTMLInputElement>(null)
 
   const handleOnClick = async () => {
     const topic = topicRef.current!.value

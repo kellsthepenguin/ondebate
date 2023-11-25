@@ -1,4 +1,3 @@
-import { faClock } from '@fortawesome/free-regular-svg-icons'
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import IRoom from '@/interfaces/Room'
