@@ -48,6 +48,8 @@ async function changePhase(
     })
   } else {
     if (
+      // prettier-ignore
+      isManual &&
       (room.groups[0] === user.group &&
         (phase === 3 || phase === 4 || phase === 7)) ||
       (room.groups[1] === user.group &&
