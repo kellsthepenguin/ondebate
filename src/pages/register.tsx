@@ -7,9 +7,13 @@ import { useRef, useState } from 'react'
 export default function Register() {
   const idRef = useRef<HTMLInputElement>(null)
   const pwRef = useRef<HTMLInputElement>(null)
+  const checkboxRef = useRef<HTMLInputElement>(null)
   const [hCaptchaToken, setHCaptchaToken] = useState('')
 
   const handleOnClick = async () => {
+    if (!checkboxRef.current!.checked)
+      return alert('개인정보처리방침에 동의해야 서비스를 사용하실 수 있습니다.')
+
     const { ok, error } = await (
       await fetch('/api/register', {
         method: 'POST',
@@ -58,7 +62,7 @@ export default function Register() {
             onVerify={(token) => setHCaptchaToken(token)}
           />
           {/* that is my sitekey. if u want to build, then change this to ur sitekey */}
-          <input className='mt-7' type='checkbox' /> &nbsp;
+          <input className='mt-7' type='checkbox' ref={checkboxRef} /> &nbsp;
           <a className='text-blue-500' href='/privacypolicy.html'>
             개인정보처리방침
           </a>
