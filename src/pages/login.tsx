@@ -43,7 +43,7 @@ export default function Login() {
           <Input
             type={'text'}
             className='w-80'
-            placeholder={'kellsthepenguin'}
+            placeholder={'dandelions'}
             innerRef={idRef}
           />
           <p>비밀번호</p>
